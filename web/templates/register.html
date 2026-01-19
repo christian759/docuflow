@@ -1,20 +1,35 @@
 {{ define "content" }}
-<div class="card" style="max-width: 400px; margin: 0 auto;">
-    <h2>Register</h2>
-    <form action="/register" method="POST">
-        <label>Username</label>
-        <input type="text" name="username" required>
-        
-        <label>Email</label>
-        <input type="email" name="email" required>
-        
-        <label>Password</label>
-        <input type="password" name="password" required>
-        
-        <button type="submit" class="btn" style="width: 100%;">Create Account</button>
-    </form>
-    <p style="text-align: center; margin-top: 1rem;">
-        Already have an account? <a href="/login">Login</a>
-    </p>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 class="auth-title">Create an account</h1>
+            <p class="auth-subtitle">Start documenting with your team</p>
+        </div>
+
+        <form action="/register" method="POST">
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-input" placeholder="Choose a username" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-input" placeholder="you@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-input" placeholder="Create a strong password"
+                    required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: var(--space-4);">Create
+                Account</button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="/login">Sign in</a>
+        </div>
+    </div>
 </div>
 {{ end }}

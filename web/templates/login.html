@@ -1,17 +1,28 @@
 {{ define "content" }}
-<div class="card" style="max-width: 400px; margin: 0 auto;">
-    <h2>Login</h2>
-    <form action="/login" method="POST">
-        <label>Username</label>
-        <input type="text" name="username" required>
-        
-        <label>Password</label>
-        <input type="password" name="password" required>
-        
-        <button type="submit" class="btn" style="width: 100%;">Login</button>
-    </form>
-    <p style="text-align: center; margin-top: 1rem;">
-        Don't have an account? <a href="/register">Register</a>
-    </p>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 class="auth-title">Welcome back</h1>
+            <p class="auth-subtitle">Sign in to continue to DocuFlow</p>
+        </div>
+
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-input" placeholder="Enter your username" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-input" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: var(--space-4);">Sign In</button>
+        </form>
+
+        <div class="auth-footer">
+            Don't have an account? <a href="/register">Create one</a>
+        </div>
+    </div>
 </div>
 {{ end }}

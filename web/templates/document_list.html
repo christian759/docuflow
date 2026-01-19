@@ -1,26 +1,50 @@
 {{ define "content" }}
-<div class="card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl);">
-        <h2 style="margin: 0;">📚 All Documents</h2>
-        <a href="/documents/new" class="btn">+ New Document</a>
+<div class="page-header flex justify-between items-center">
+    <div>
+        <h1 class="page-title">Documents</h1>
+        <p class="page-description" style="margin: 0;">Your team's knowledge base</p>
     </div>
+    <a href="/documents/new" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        New Document
+    </a>
+</div>
 
+<div class="card">
     {{ if .Documents }}
     <ul class="doc-list">
         {{ range .Documents }}
-        <li>
-            <a href="/documents/view?id={{ .ID }}">{{ .Title }}</a>
-            <span class="text-muted text-sm" style="display: block; margin-top: 0.25rem;">
-                Last updated: {{ .UpdatedAt.Format "Jan 02, 2006 at 15:04" }}
-            </span>
+        <li class="doc-item">
+            <div class="doc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                </svg>
+            </div>
+            <div class="doc-content">
+                <a href="/documents/view?id={{ .ID }}" class="doc-title">{{ .Title }}</a>
+                <span class="doc-meta">Updated {{ .UpdatedAt.Format "Jan 02, 2006 at 15:04" }}</span>
+            </div>
+            <a href="/documents/edit?id={{ .ID }}" class="btn btn-ghost btn-sm">Edit</a>
         </li>
         {{ end }}
     </ul>
     {{ else }}
-    <div style="text-align: center; padding: var(--space-xl); color: var(--text-muted);">
-        <p style="font-size: 3rem; margin-bottom: var(--space-md);">📝</p>
-        <p style="margin-bottom: var(--space-md);">No documents yet. Create your first one!</p>
-        <a href="/documents/new" class="btn">Create Document</a>
+    <div class="empty-state">
+        <div class="empty-state-icon">📄</div>
+        <h3 class="empty-state-title">No documents yet</h3>
+        <p class="empty-state-description">Create your first document to get started with your team's knowledge base.
+        </p>
+        <a href="/documents/new" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Create Document
+        </a>
     </div>
     {{ end }}
 </div>

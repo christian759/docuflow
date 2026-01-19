@@ -1,31 +1,46 @@
 {{ define "content" }}
-<div class="card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h2>Revision History: {{ .Title }}</h2>
-        <a href="/documents/view?id={{ .DocumentID }}" class="btn" style="background: #64748b;">Back to Document</a>
+<div class="page-header flex justify-between items-center">
+    <div>
+        <h1 class="page-title">Version History</h1>
+        <p class="page-description" style="margin: 0;">{{ .Title }}</p>
     </div>
+    <a href="/documents/view?id={{ .DocumentID }}" class="btn btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+        </svg>
+        Back to Document
+    </a>
+</div>
 
+<div class="card">
     {{ if .Revisions }}
-    <ul style="list-style: none; padding: 0;">
+    <ul class="revision-list">
         {{ range .Revisions }}
-        <li
-            style="border-bottom: 1px solid #e2e8f0; padding: 1rem 0; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <a href="/revisions/view?id={{ .ID }}"
-                    style="font-weight: bold; text-decoration: none; color: #2563eb;">
-                    {{ .CreatedAt.Format "Jan 02, 2006 15:04" }}
-                </a>
-                <span style="color: #64748b; display: block;">{{ .ChangeSummary }}</span>
+        <li class="revision-item">
+            <div class="revision-info">
+                <div class="revision-avatar">R</div>
+                <div class="revision-details">
+                    <h4>{{ .CreatedAt.Format "January 02, 2006 at 15:04" }}</h4>
+                    <p>{{ if .ChangeSummary }}{{ .ChangeSummary }}{{ else }}Document revision{{ end }}</p>
+                </div>
             </div>
-            <form action="/revisions/rollback" method="POST" style="margin: 0;">
-                <input type="hidden" name="revision_id" value="{{ .ID }}">
-                <button type="submit" class="btn" style="background: #f97316;">Restore</button>
-            </form>
+            <div class="flex gap-2">
+                <a href="/revisions/view?id={{ .ID }}" class="btn btn-ghost btn-sm">View</a>
+                <form action="/revisions/rollback" method="POST" style="margin: 0;">
+                    <input type="hidden" name="revision_id" value="{{ .ID }}">
+                    <button type="submit" class="btn btn-warning btn-sm">Restore</button>
+                </form>
+            </div>
         </li>
         {{ end }}
     </ul>
     {{ else }}
-    <p>No revisions found.</p>
+    <div class="empty-state" style="padding: var(--space-10);">
+        <div class="empty-state-icon">📜</div>
+        <h3 class="empty-state-title">No revisions yet</h3>
+        <p class="empty-state-description">Revisions are created when you save changes to the document.</p>
+    </div>
     {{ end }}
 </div>
 {{ end }}

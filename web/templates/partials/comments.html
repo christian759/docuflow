@@ -1,36 +1,52 @@
-<div id="comments-section">
-    <h3>Comments</h3>
+<div class="comments-header">
+    <h3 class="comments-title">Discussion</h3>
+    <span class="comments-count">{{ len .Comments }} comments</span>
+</div>
 
-    <form hx-post="/comments/add" hx-target="#comments-section" hx-swap="outerHTML" style="margin-bottom: 1.5rem;">
-        <input type="hidden" name="document_id" value="{{ .DocumentID }}">
-        <textarea name="content" placeholder="Add a comment..."
-            style="width: 100%; height: 80px; padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 0.375rem; margin-bottom: 0.5rem;"
-            required></textarea>
-        <button type="submit" class="btn">Post Comment</button>
-    </form>
+<form class="comment-form" hx-post="/comments/add" hx-target="closest .comments-section" hx-swap="innerHTML">
+    <input type="hidden" name="document_id" value="{{ .DocumentID }}">
+    <textarea name="content" class="comment-input" placeholder="Add your thoughts or questions..." required></textarea>
+    <button type="submit" class="btn btn-primary btn-sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+        </svg>
+        Post Comment
+    </button>
+</form>
 
-    {{ if .Comments }}
-    <ul style="list-style: none; padding: 0;">
-        {{ range .Comments }}
-        <li
-            style="border-left: 3px solid #2563eb; padding: 0.75rem 1rem; margin-bottom: 1rem; background: #f8fafc; border-radius: 0 0.375rem 0.375rem 0;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <div>
-                    <strong style="color: #2563eb;">{{ .Username }}</strong>
-                    <span style="color: #64748b; font-size: 0.875rem;">{{ .CreatedAt.Format "Jan 02, 15:04" }}</span>
-                </div>
-                <form hx-post="/comments/delete" hx-target="#comments-section" hx-swap="outerHTML" style="margin: 0;">
+{{ if .Comments }}
+<ul class="comment-list">
+    {{ range .Comments }}
+    <li class="comment-item">
+        <div class="comment-header">
+            <div class="flex items-center gap-2">
+                <span class="revision-avatar" style="width: 28px; height: 28px; font-size: 0.75rem;">{{ slice .Username
+                    0 1 }}</span>
+                <span class="comment-author">{{ .Username }}</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="comment-time">{{ .CreatedAt.Format "Jan 02, 15:04" }}</span>
+                <form hx-post="/comments/delete" hx-target="closest .comments-section" hx-swap="innerHTML"
+                    style="margin: 0;">
                     <input type="hidden" name="comment_id" value="{{ .ID }}">
                     <input type="hidden" name="document_id" value="{{ $.DocumentID }}">
-                    <button type="submit"
-                        style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.875rem;">Delete</button>
+                    <button type="submit" class="btn btn-ghost btn-sm"
+                        style="color: var(--error-500); padding: var(--space-1) var(--space-2);">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
                 </form>
             </div>
-            <p style="margin: 0.5rem 0 0 0;">{{ .Content }}</p>
-        </li>
-        {{ end }}
-    </ul>
-    {{ else }}
-    <p style="color: #64748b;">No comments yet. Be the first to comment!</p>
+        </div>
+        <p class="comment-body">{{ .Content }}</p>
+    </li>
     {{ end }}
-</div>
+</ul>
+{{ else }}
+<p class="text-muted text-sm" style="text-align: center; padding: var(--space-6) 0;">No comments yet. Start the
+    discussion!</p>
+{{ end }}
