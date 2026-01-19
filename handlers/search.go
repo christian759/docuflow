@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"database/sql"
-	"docuflow/internal/models"
+	"docuflow/models"
 	"html/template"
 	"net/http"
 )
