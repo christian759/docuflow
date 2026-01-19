@@ -1,0 +1,17 @@
+{{ define "content" }}
+<div class="card" style="max-width: 400px; margin: 0 auto;">
+    <h2>Login</h2>
+    <form action="/login" method="POST">
+        <label>Username</label>
+        <input type="text" name="username" required>
+        
+        <label>Password</label>
+        <input type="password" name="password" required>
+        
+        <button type="submit" class="btn" style="width: 100%;">Login</button>
+    </form>
+    <p style="text-align: center; margin-top: 1rem;">
+        Don't have an account? <a href="/register">Register</a>
+    </p>
+</div>
+{{ end }}
