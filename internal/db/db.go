@@ -4,14 +4,13 @@ import (
 	"database/sql"
 	"log"
 	"os"
-	"path/filepath"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 func InitDB() (*sql.DB, error) {
 	dbPath := "./docuflow.db"
-	
+
 	// Ensure file exists or can be created
 	if _, err := os.Stat(dbPath); os.IsNotExist(err) {
 		file, err := os.Create(dbPath)
