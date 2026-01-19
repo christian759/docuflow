@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"docuflow/internal/db"
 	"docuflow/internal/handlers"
-	"html/template"
 	"log"
 	"net/http"
 )
@@ -30,22 +29,13 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	authHandler := &handlers.AuthHandler{DB: database}
+	docHandler := &handlers.DocumentHandler{DB: database}
 
 	// Routes
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// Basic session check for template data
-		cookie, err := r.Cookie("session_token")
-		var username string
-		if err == nil {
-			username = cookie.Value
-		}
-
-		tmpl := template.Must(template.ParseFiles("web/templates/index.html", "web/templates/base.html"))
-		data := map[string]interface{}{
-			"User": username,
-		}
-		tmpl.Execute(w, data)
-	})
+	// Routes
+	mux.HandleFunc("/", docHandler.ListDocuments)
+	mux.HandleFunc("/documents/new", docHandler.NewDocument)
+	mux.HandleFunc("/documents/view", docHandler.ViewDocument)
 
 	mux.HandleFunc("/register", authHandler.Register)
 	mux.HandleFunc("/login", authHandler.Login)
