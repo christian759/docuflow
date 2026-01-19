@@ -1,0 +1,30 @@
+{{ define "content" }}
+<div class="card">
+    <h2>Search Documents</h2>
+    <form action="/search" method="GET" style="margin-bottom: 2rem;">
+        <div style="display: flex; gap: 0.5rem;">
+            <input type="text" name="q" value="{{ .Query }}" placeholder="Search by title or content..."
+                style="flex: 1;">
+            <button type="submit" class="btn">Search</button>
+        </div>
+    </form>
+
+    {{ if .Query }}
+    <h3>Results for "{{ .Query }}"</h3>
+    {{ if .Results }}
+    <ul style="list-style: none; padding: 0;">
+        {{ range .Results }}
+        <li style="border-bottom: 1px solid #e2e8f0; padding: 1rem 0;">
+            <a href="/documents/view?id={{ .ID }}"
+                style="font-size: 1.125rem; font-weight: bold; text-decoration: none; color: #2563eb;">{{ .Title }}</a>
+            <p style="color: #64748b; margin: 0.5rem 0 0 0; font-size: 0.875rem;">{{ .Content }}</p>
+            <span style="color: #94a3b8; font-size: 0.75rem;">Updated: {{ .UpdatedAt.Format "Jan 02, 2006" }}</span>
+        </li>
+        {{ end }}
+    </ul>
+    {{ else }}
+    <p style="color: #64748b;">No documents found matching "{{ .Query }}".</p>
+    {{ end }}
+    {{ end }}
+</div>
+{{ end }}

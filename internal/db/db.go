@@ -68,6 +68,16 @@ func InitSchema(db *sql.DB) error {
 		FOREIGN KEY(document_id) REFERENCES documents(id),
 		FOREIGN KEY(editor_id) REFERENCES users(id)
 	);
+
+	CREATE TABLE IF NOT EXISTS comments (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		document_id INTEGER,
+		user_id INTEGER,
+		content TEXT NOT NULL,
+		created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY(document_id) REFERENCES documents(id),
+		FOREIGN KEY(user_id) REFERENCES users(id)
+	);
 	`
 	_, err := db.Exec(schema)
 	return err
