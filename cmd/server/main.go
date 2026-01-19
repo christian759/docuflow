@@ -30,12 +30,18 @@ func main() {
 
 	authHandler := &handlers.AuthHandler{DB: database}
 	docHandler := &handlers.DocumentHandler{DB: database}
+	revHandler := &handlers.RevisionHandler{DB: database}
 
-	// Routes
 	// Routes
 	mux.HandleFunc("/", docHandler.ListDocuments)
 	mux.HandleFunc("/documents/new", docHandler.NewDocument)
 	mux.HandleFunc("/documents/view", docHandler.ViewDocument)
+	mux.HandleFunc("/documents/edit", docHandler.EditDocument)
+	mux.HandleFunc("/documents/autosave", docHandler.Autosave)
+
+	mux.HandleFunc("/revisions", revHandler.ListRevisions)
+	mux.HandleFunc("/revisions/view", revHandler.ViewRevision)
+	mux.HandleFunc("/revisions/rollback", revHandler.Rollback)
 
 	mux.HandleFunc("/register", authHandler.Register)
 	mux.HandleFunc("/login", authHandler.Login)
