@@ -13,5 +13,12 @@
     <div class="markdown-body">
         {{ .Content }}
     </div>
+
+    <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e2e8f0;">
+
+    <!-- Comments Section - loaded via HTMX -->
+    <div hx-get="/comments?doc_id={{ .Document.ID }}" hx-trigger="load" hx-swap="innerHTML">
+        <p style="color: #64748b;">Loading comments...</p>
+    </div>
 </div>
 {{ end }}

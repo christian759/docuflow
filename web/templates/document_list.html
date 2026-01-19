@@ -1,23 +1,27 @@
 {{ define "content" }}
 <div class="card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h2>All Documents</h2>
-        <a href="/documents/new" class="btn">New Document</a>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl);">
+        <h2 style="margin: 0;">📚 All Documents</h2>
+        <a href="/documents/new" class="btn">+ New Document</a>
     </div>
 
     {{ if .Documents }}
-    <ul style="list-style: none; padding: 0;">
+    <ul class="doc-list">
         {{ range .Documents }}
-        <li style="border-bottom: 1px solid #e2e8f0; padding: 1rem 0;">
-            <a href="/documents/view?id={{ .ID }}" style="font-weight: bold; text-decoration: none; color: #2563eb;">{{
-                .Title }}</a>
-            <span style="color: #64748b; font-size: 0.875rem; display: block;">Updated: {{ .UpdatedAt.Format "Jan 02,
-                2006" }}</span>
+        <li>
+            <a href="/documents/view?id={{ .ID }}">{{ .Title }}</a>
+            <span class="text-muted text-sm" style="display: block; margin-top: 0.25rem;">
+                Last updated: {{ .UpdatedAt.Format "Jan 02, 2006 at 15:04" }}
+            </span>
         </li>
         {{ end }}
     </ul>
     {{ else }}
-    <p>No documents found.</p>
+    <div style="text-align: center; padding: var(--space-xl); color: var(--text-muted);">
+        <p style="font-size: 3rem; margin-bottom: var(--space-md);">📝</p>
+        <p style="margin-bottom: var(--space-md);">No documents yet. Create your first one!</p>
+        <a href="/documents/new" class="btn">Create Document</a>
+    </div>
     {{ end }}
 </div>
 {{ end }}
