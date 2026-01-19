@@ -6,6 +6,9 @@ import (
 	"docuflow/internal/handlers"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
+	"runtime"
 )
 
 type Config struct {
@@ -14,6 +17,15 @@ type Config struct {
 }
 
 func main() {
+	// Ensure working directory is the project root
+	_, filename, _, _ := runtime.Caller(0)
+	root := filepath.Join(filepath.Dir(filename), "../..")
+	if err := os.Chdir(root); err != nil {
+		log.Printf("Warning: Failed to change directory to project root: %v", err)
+	} else {
+		log.Printf("Working directory set to: %s", root)
+	}
+
 	// Initialize Database
 	database, err := db.InitDB()
 	if err != nil {
