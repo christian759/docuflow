@@ -40,7 +40,7 @@ func (h *RevisionHandler) ListRevisions(w http.ResponseWriter, r *http.Request) 
 	var title string
 	h.DB.QueryRow("SELECT title FROM documents WHERE id = ?", docID).Scan(&title)
 
-	tmpl := template.Must(template.ParseFiles("web/templates/revisions.html", "web/templates/base.html"))
+	tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/revisions.html"))
 	data := struct {
 		DocumentID string
 		Title      string
@@ -70,7 +70,7 @@ func (h *RevisionHandler) ViewRevision(w http.ResponseWriter, r *http.Request) {
 	var title string
 	h.DB.QueryRow("SELECT title FROM documents WHERE id = ?", rev.DocumentID).Scan(&title)
 
-	tmpl := template.Must(template.ParseFiles("web/templates/revision_view.html", "web/templates/base.html"))
+	tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/revision_view.html"))
 	data := struct {
 		Title    string
 		Revision models.Revision

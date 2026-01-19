@@ -15,7 +15,7 @@ func (h *SearchHandler) Search(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("q")
 
 	if query == "" {
-		tmpl := template.Must(template.ParseFiles("web/templates/search.html", "web/templates/base.html"))
+		tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/search.html"))
 		tmpl.Execute(w, nil)
 		return
 	}
@@ -46,7 +46,7 @@ func (h *SearchHandler) Search(w http.ResponseWriter, r *http.Request) {
 		results = append(results, d)
 	}
 
-	tmpl := template.Must(template.ParseFiles("web/templates/search.html", "web/templates/base.html"))
+	tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/search.html"))
 	data := struct {
 		Query   string
 		Results []models.Document

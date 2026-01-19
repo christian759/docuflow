@@ -35,13 +35,13 @@ func (h *DocumentHandler) ListDocuments(w http.ResponseWriter, r *http.Request) 
 		docs = append(docs, d)
 	}
 
-	tmpl := template.Must(template.ParseFiles("web/templates/document_list.html", "web/templates/base.html"))
+	tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/document_list.html"))
 	tmpl.Execute(w, struct{ Documents []models.Document }{Documents: docs})
 }
 
 func (h *DocumentHandler) NewDocument(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("web/templates/document_edit.html", "web/templates/base.html"))
+		tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/document_edit.html"))
 		tmpl.Execute(w, nil)
 		return
 	}
@@ -86,7 +86,7 @@ func (h *DocumentHandler) ViewDocument(w http.ResponseWriter, r *http.Request) {
 		Content:  template.HTML(htmlBytes),
 	}
 
-	tmpl := template.Must(template.ParseFiles("web/templates/document_view.html", "web/templates/base.html"))
+	tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/document_view.html"))
 	tmpl.Execute(w, data)
 }
 
@@ -100,7 +100,7 @@ func (h *DocumentHandler) EditDocument(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Document not found", http.StatusNotFound)
 			return
 		}
-		tmpl := template.Must(template.ParseFiles("web/templates/document_edit.html", "web/templates/base.html"))
+		tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/document_edit.html"))
 		tmpl.Execute(w, doc)
 		return
 	}
