@@ -17,7 +17,7 @@ type AuthHandler struct {
 func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/register.html"))
-		tmpl.Execute(w, nil)
+		tmpl.Execute(w, GetBaseData(r))
 		return
 	}
 
@@ -45,7 +45,7 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/login.html"))
-		tmpl.Execute(w, nil)
+		tmpl.Execute(w, GetBaseData(r))
 		return
 	}
 

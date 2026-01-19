@@ -36,13 +36,19 @@ func (h *DocumentHandler) ListDocuments(w http.ResponseWriter, r *http.Request) 
 	}
 
 	tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/document_list.html"))
-	tmpl.Execute(w, struct{ Documents []models.Document }{Documents: docs})
+	tmpl.Execute(w, struct {
+		User      string
+		Documents []models.Document
+	}{
+		User:      GetBaseData(r).User,
+		Documents: docs,
+	})
 }
 
 func (h *DocumentHandler) NewDocument(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/document_edit.html"))
-		tmpl.Execute(w, nil)
+		tmpl.Execute(w, GetBaseData(r))
 		return
 	}
 
@@ -78,16 +84,16 @@ func (h *DocumentHandler) ViewDocument(w http.ResponseWriter, r *http.Request) {
 	docContent := []byte(doc.Content)
 	htmlBytes := markdown.ToHTML(docContent, p, nil)
 
-	data := struct {
+	tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/document_view.html"))
+	tmpl.Execute(w, struct {
+		User     string
 		Document models.Document
 		Content  template.HTML
 	}{
+		User:     GetBaseData(r).User,
 		Document: doc,
 		Content:  template.HTML(htmlBytes),
-	}
-
-	tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/document_view.html"))
-	tmpl.Execute(w, data)
+	})
 }
 
 func (h *DocumentHandler) EditDocument(w http.ResponseWriter, r *http.Request) {
@@ -101,7 +107,13 @@ func (h *DocumentHandler) EditDocument(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/document_edit.html"))
-		tmpl.Execute(w, doc)
+		tmpl.Execute(w, struct {
+			User string
+			models.Document
+		}{
+			User:     GetBaseData(r).User,
+			Document: doc,
+		})
 		return
 	}
 

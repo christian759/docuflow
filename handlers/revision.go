@@ -42,10 +42,12 @@ func (h *RevisionHandler) ListRevisions(w http.ResponseWriter, r *http.Request) 
 
 	tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/revisions.html"))
 	data := struct {
+		User       string
 		DocumentID string
 		Title      string
 		Revisions  []models.Revision
 	}{
+		User:       GetBaseData(r).User,
 		DocumentID: docID,
 		Title:      title,
 		Revisions:  revisions,
@@ -72,9 +74,11 @@ func (h *RevisionHandler) ViewRevision(w http.ResponseWriter, r *http.Request) {
 
 	tmpl := template.Must(template.ParseFiles("web/templates/base.html", "web/templates/revision_view.html"))
 	data := struct {
+		User     string
 		Title    string
 		Revision models.Revision
 	}{
+		User:     GetBaseData(r).User,
 		Title:    title,
 		Revision: rev,
 	}
